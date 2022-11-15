@@ -32,7 +32,7 @@ export class UserPassword extends ValueObject<UserPasswordProps> {
     });
   }
 
-  private isAlreadyHashed(): boolean {
+  public isAlreadyHashed(): boolean {
     return this.props.hashed;
   }
 

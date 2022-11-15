@@ -15,7 +15,7 @@ type UserProps = {
   email: UserEmail;
   username: UserName;
   password: UserPassword;
-  accessToken: JWTToken;
+  accessToken?: JWTToken;
 };
 
 export class UserAggregate extends AggregateRoot<UserProps> {
