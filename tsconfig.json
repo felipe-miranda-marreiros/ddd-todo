@@ -1,15 +1,17 @@
 {
   "compilerOptions": {
     "target": "es5",                          
-    "module": "commonjs",                    
+    "module": "commonjs", 
+    "moduleResolution": "node",                   
     "lib": ["es6"],                     
     "allowJs": true,
+    "sourceMap": true,
     "outDir": "dist",                          
-    "rootDir": "src",
-    "strict": true,         
-    "noImplicitAny": true,
+    "rootDir": "src",       
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
   },
   "include": ["src"],
   "exclude": ["node_modules"]
