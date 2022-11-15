@@ -2,7 +2,7 @@ import { Guard } from "../../../../../shared/core/Guard";
 import { ValueObject } from "../../../../../shared/domain/ValueObject";
 import { Result } from "./../../../../../shared/core/Result";
 
-type UserNameProps = {
+export type UserNameProps = {
   name: string;
 };
 
