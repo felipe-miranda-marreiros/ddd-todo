@@ -1,4 +1,3 @@
-import { UserAggregate } from "./../../domain/aggregate-root/user/user";
 import { UserName } from "./../../domain/value-objects/userName/userName";
 import { UserPassword } from "./../../domain/value-objects/userPassword/userPassword";
 import { UserEmail } from "./../../domain/value-objects/userEmail/userEmail";
@@ -8,6 +7,7 @@ import { UseCase } from "./../../../../shared/core/UseCase";
 import { AppError } from "../../../../shared/core/AppError";
 import { Either, Result, left, right } from "./../../../../shared/core/Result";
 import { CreateUserErrors } from "./CreateUserError";
+import { UserAggregate } from "../../domain/aggregate-root/user/user";
 
 type Response = Either<
   | CreateUserErrors.EmailAlreadyExistsError
@@ -49,13 +49,16 @@ export class CreateUserUseCase
 
     try {
       const userAlreadyExists = await this.userRepo.exists(emailValue);
+
       if (userAlreadyExists) {
         return left(
           new CreateUserErrors.EmailAlreadyExistsError(emailValue.value)
         );
       }
+
       const alreadyCreatedUserByUserName =
         await this.userRepo.getUserByUserName(usernameValue.value);
+
       const userNameTaken = !!alreadyCreatedUserByUserName === true;
       if (userNameTaken) {
         return left(
