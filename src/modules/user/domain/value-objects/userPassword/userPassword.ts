@@ -38,7 +38,7 @@ export class UserPassword extends ValueObject<UserPasswordProps> {
 
   private hashPassword(password: string): Promise<string> {
     return new Promise((resolve, reject) => {
-      bcrypt.hash(password, null, (error, hash) => {
+      bcrypt.hash(password, 12, (error, hash) => {
         if (error) return reject(error);
         resolve(hash);
       });
