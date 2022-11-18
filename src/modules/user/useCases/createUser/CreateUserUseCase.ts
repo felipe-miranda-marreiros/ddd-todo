@@ -53,23 +53,29 @@ export class CreateUserUseCase
       if (userAlreadyExists) {
         return left(
           new CreateUserErrors.EmailAlreadyExistsError(emailValue.value)
-        );
-      }
-
-      const alreadyCreatedUserByUserName =
-        await this.userRepo.getUserByUserName(usernameValue.value);
-
-      const userNameTaken = !!alreadyCreatedUserByUserName === true;
-      if (userNameTaken) {
-        return left(
-          new CreateUserErrors.UsernameTakenError(usernameValue.value)
         ) as Response;
       }
+
+      try {
+        const alreadyCreatedUserByUserName =
+          await this.userRepo.getUserByUserName(usernameValue);
+
+        const userNameTaken = !!alreadyCreatedUserByUserName === true;
+        if (userNameTaken) {
+          return left(
+            new CreateUserErrors.UsernameTakenError(usernameValue.value)
+          ) as Response;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
       const userOrError: Result<UserAggregate> = UserAggregate.create({
         email: emailValue,
         password: passwordValue,
         username: usernameValue,
       });
+      
       if (userOrError.isFailure) {
         return left(
           Result.fail<UserAggregate>(userOrError.getErrorValue().toString())

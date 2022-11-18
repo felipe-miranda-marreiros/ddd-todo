@@ -1,2 +1,2 @@
-import { sequelize, connectToDb } from "./sequelize/config/config";
+import { sequelize, connectToDb } from "./sequelize/config/db";
 export { sequelize, connectToDb };

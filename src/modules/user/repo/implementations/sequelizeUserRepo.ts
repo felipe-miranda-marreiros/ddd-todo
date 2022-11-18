@@ -5,14 +5,14 @@ import { UserName } from "../../domain/value-objects/userName/userName";
 import { UserRepo } from "./../userRepo";
 
 export class SequelizeUserRepo implements UserRepo {
-  private models: any;
+  private model: any;
 
-  constructor(models: any) {
-    this.models = models;
+  constructor(model: any) {
+    this.model = model;
   }
 
   async exists(userEmail: UserEmail): Promise<boolean> {
-    const BaseUserModel = this.models;
+    const BaseUserModel = this.model;
     const baseUser = await BaseUserModel.findOne({
       where: {
         user_email: userEmail.value,
@@ -22,19 +22,18 @@ export class SequelizeUserRepo implements UserRepo {
   }
 
   async getUserByUserName(userName: UserName | string): Promise<UserAggregate> {
-    const BaseUserModel = this.models;
+    const BaseUserModel = this.model;
     const baseUser = await BaseUserModel.findOne({
       where: {
-        username:
-          userName instanceof UserName ? (<UserName>userName).value : userName,
+        username: userName instanceof UserName ? (<UserName>userName).value : userName,
       },
     });
-    if (!!baseUser === false) throw new Error("Usuário não encontrado.");
+    if (!!baseUser === false) throw new Error("User not found.");
     return UserMapper.toDomain(baseUser);
   }
 
   async getUserByUserId(userId: string): Promise<UserAggregate> {
-    const BaseUserModel = this.models;
+    const BaseUserModel = this.model;
     const baseUser = await BaseUserModel.findOne({
       where: {
         base_user_id: userId,
@@ -45,7 +44,7 @@ export class SequelizeUserRepo implements UserRepo {
   }
 
   async save(user: UserAggregate): Promise<void> {
-    const UserModel = this.models;
+    const UserModel = this.model;
     const exists = await this.exists(user.email);
 
     if (!exists) {
