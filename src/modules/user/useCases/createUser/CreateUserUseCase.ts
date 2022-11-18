@@ -75,7 +75,7 @@ export class CreateUserUseCase
         password: passwordValue,
         username: usernameValue,
       });
-      
+
       if (userOrError.isFailure) {
         return left(
           Result.fail<UserAggregate>(userOrError.getErrorValue().toString())

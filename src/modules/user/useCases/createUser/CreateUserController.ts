@@ -19,20 +19,19 @@ export class CreateUserController extends BaseController {
       const result = await this.useCase.execute(dto);
       if (result.isLeft()) {
         const error = result.value;
-
         switch (error.constructor) {
           case CreateUserErrors.UsernameTakenError:
-            return this.conflict(res, error.getErrorValue().message);
+            return this.conflict(res, error.getErrorValue());
           case CreateUserErrors.EmailAlreadyExistsError:
-            return this.conflict(res, error.getErrorValue().message);
+            return this.conflict(res, error.getErrorValue());
           default:
-            return this.fail(res, error.getErrorValue().message);
+            return this.fail(res, error.getErrorValue());
         }
       } else {
         return this.ok(res);
       }
-    } catch (error) {
-      return this.fail(res, error);
+    } catch (err) {
+      return this.fail(res, err);
     }
   }
 }
