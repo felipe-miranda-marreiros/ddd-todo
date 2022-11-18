@@ -29,7 +29,7 @@ export class CreateUserController extends BaseController {
             return this.fail(res, error.getErrorValue().message);
         }
       } else {
-        return this.ok<CreateUserDTO>(res);
+        return this.ok(res);
       }
     } catch (error) {
       return this.fail(res, error);
